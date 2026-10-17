@@ -1,21 +1,21 @@
-﻿# Handoff
+# Handoff
 
 <!-- xs-status:start -->
-Pipeline status (generated 2026-10-17T01:46:32+00:00):
+Pipeline status (generated 2026-10-17T02:08:22+00:00):
 
 - **identity**: done
 - **research**: done
 - **template**: todo - choose the premium template site and record it under '## Template site' in kb/design-brief.md
-- **assets**: todo - collect assets, record coverage, run xs_assets.py report
-- **delivery**: todo - package the current library and record each part's verified Slack delivery to Abdul
+- **assets**: done
+- **delivery**: done
+- **infra**: done
 - **build**: todo - record verified build evidence
-- **repo**: todo - record verified repo evidence
 - **deploy**: todo - record verified deploy evidence
 <!-- xs-status:end -->
 
 ## Current state
 
-Identity and sourced research are complete. Frontend/template and asset collection are in progress. No new site is deployed yet.
+Identity, research, media collection, coordinator shortlist and verified media delivery are complete. Placeholder infrastructure is verified live on all three environments at a818b2065d576fcdd488dafa7dce59bd748cace0; all three push-event release workflows passed. The application is not released yet. Earlier frontend work is preserved uncommitted and its Rago Brothers reference is provisional.
 
 ## Last session
 
@@ -23,9 +23,9 @@ Identity and sourced research are complete. Frontend/template and asset collecti
 
 ## Next step
 
-Complete frontend and media receipts, implement container contract, run independent code review and visual checks, then launch production and both personal previews.
+Infrastructure is done. Relaunch Claude on derek-dev: reassess template polish first, industry fit second, with the completed media shortlist. Follow with application build, backend checks, Sol review, Opus triage, coordinator interaction review and release.
 
 ## Blockers / waiting on
 
-Waiting on active specialist work. Media reuse rights require evidence; initial deployment remains noindex.
+No infrastructure blocker remains. All three packages are public and all timers are active. All 43 collected images have unverified reuse rights; shortlist is advisory and grants no production clearance. All environments remain noindex.
 

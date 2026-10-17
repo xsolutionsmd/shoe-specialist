@@ -31,6 +31,18 @@ company folder and were delivered to Abdul over Slack; they are intentionally no
 |---|---|
 | public-unverified | 43 |
 
+## Shortlist (main agent's picks for the site)
+
+The full library is in the private company folder (`private/assets/originals/`, provenance in
+`private/assets/manifest.json`); the frontend may choose other or additional files from it.
+
+| File (sha256 prefix) | Role | Type | Size | Rights | Source page | Note |
+|---|---|---|---|---|---|---|
+| 78aecdcea7a3 | service:supplies | image | 300x260 | public-unverified | https://shoespecialistsp.com/supplies/attachment/3/ | Authentic product-display context from official site, supports shoe-care supplies section. Busy composition and 300x260 size suit a small inset only. Preserve product detail; public-unverified, no production reuse clearance. |
+| 112e617798e8 | gallery | image | 1334x751 | public-unverified | https://shoespecialistsp.com/services/attachment/2/ | Strongest authenticated storefront view, 1334x751, readable sign and recognizable entrance. Crop inward toward shop to reduce neighboring signs and parked cars. Useful visit/location image; old 2018 upload and public-unverified rights require confirmation before production. |
+| f03ffa8d9c74 | about | image | 980x395 | public-unverified | https://www.bestprosintown.com/md/severna-park/shoe-specialist-/gallery/#id=oMg1hydFQZ.jpg | Strongest human story image: person behind shoe counter, wide composition with visible repair context. Avoid stretching or aggressive cropping; 980x395 has limited vertical room. Identity and third-party rights unconfirmed; preview/reference candidate only. |
+| 358cd0402e7d | service:repair | image | 300x260 | public-unverified | https://www.bestprosintown.com/md/severna-park/shoe-specialist-/gallery/#id=22e8e2a699.jpg | Most convincing craft/process composition: repair machine, hands and person in one frame. Small 300x260 source: use only a small detail, never a full-bleed hero. Person identity and reuse rights need confirmation. |
+
 ## Used on the website
 
 None selected yet.

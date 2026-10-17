@@ -8,6 +8,7 @@ Help local visitors decide whether their shoes or leather goods can be repaired 
 A concise landing page: clear repair proposition and phone CTA; service categories; Coleman and the shop history (since 1978); shoe-care supplies; visit/contact with published hours. Answer what can be repaired, who does it, and how to reach the shop. [S2][S3][S4][S5]
 
 ## Template site
+<!-- xs:template -->
 
 **Provisional — 2026-10-16 correction:** this early selection is retained as research only. Claude was stopped so research, the complete media library, verified Slack delivery and placeholder infrastructure finish first. Relaunched Claude must re-check this choice against the completed media before accepting or replacing it.
 Chosen 2026-10-16 by the frontend owner (Claude Opus 5.5): **Rago Brothers Shoe & Leather Repair — https://www.ragobrothers.com/** (inspected live at 1440 px and 390 px).
