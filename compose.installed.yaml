@@ -3,9 +3,10 @@ services:
     image: ${APP_IMAGE:?Provide an immutable image with the application launcher}
     ports:
       - "127.0.0.1:${APP_PORT:-8787}:8080"
-    volumes:
-      - app-data:/data
+    read_only: true
+    tmpfs: [/tmp, /data, /config]
+    security_opt: [no-new-privileges:true]
+    environment:
+      APP_ENVIRONMENT: installed
     init: true
     restart: unless-stopped
-volumes:
-  app-data:

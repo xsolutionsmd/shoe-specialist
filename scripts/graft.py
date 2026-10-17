@@ -18,6 +18,26 @@ def run(args, cwd=None):
 def git(*args):
     return run(['git', *args])
 
+def configured_refs():
+    branches = None
+    company = ROOT / 'xsolutions.json'
+    workflow = ROOT / 'app-workflow.json'
+    if company.is_file():
+        environments = json.loads(company.read_text(encoding='utf-8-sig')).get('environments')
+        if environments is not None:
+            if not isinstance(environments, list) or any(not isinstance(env, dict) for env in environments):
+                raise ValueError('xsolutions.json environments must list branch objects')
+            branches = [env.get('branch') for env in environments]
+    if branches is None and workflow.is_file():
+        branches = json.loads(workflow.read_text(encoding='utf-8-sig')).get('branches')
+    if branches is None:
+        branches = ['main', 'derek-dev', 'abdul-dev']
+    if not isinstance(branches, list) or not branches or any(not isinstance(branch, str) or not branch for branch in branches) or 'main' not in branches:
+        raise ValueError('Configured branches must be a nonempty list of branch names including main')
+    for branch in branches:
+        git('check-ref-format', 'refs/heads/' + branch)
+    return tuple(dict.fromkeys(branches))
+
 def identity(ref, feature=False):
     config = json.loads((ROOT / 'tools/graft/context.json').read_text(encoding='utf-8-sig'))
     patterns = config.get('sourcePatterns')
@@ -29,33 +49,41 @@ def identity(ref, feature=False):
         raise ValueError('Unexpected origin repository; refusing context access')
     if git('rev-parse', '--show-toplevel').replace('\\', '/') != ROOT.as_posix():
         raise ValueError('Launcher must belong to the checkout root')
+    refs = configured_refs()
+    if ref not in refs:
+        raise ValueError(f'Expected a configured ref: {", ".join(refs)}')
     branch = git('branch', '--show-current')
-    if feature and (ref != 'dev' or branch in ('', 'main')):
+    if feature and (ref == 'main' or branch in ('', 'main')):
         raise ValueError('Feature context requires an attached development branch, never main')
-    if not feature and branch != ref:
+    if (not feature or branch in refs) and branch != ref:
         raise ValueError(f'Expected branch {ref}; got {branch or "detached HEAD"}')
     dirty = bool(git('status', '--porcelain', '--untracked-files=all'))
     if ref == 'main' and dirty:
         raise ValueError('Production context requires a clean main checkout')
     omitted = git('ls-files', '--others', '--exclude-standard').splitlines()
-    key = ref if not feature else 'dev-feature-' + hashlib.sha256(branch.encode()).hexdigest()[:12]
+    key = quote(ref, safe='')
+    if feature:
+        key += '-feature-' + hashlib.sha256(branch.encode()).hexdigest()[:12]
     return config, dict(repository=repo, ref=ref, branch=branch, feature=feature, cacheKey=key, root=str(ROOT), revision=git('rev-parse', 'HEAD'), dirty=dirty, omittedUntracked=omitted)
 
 TEXT_EXTENSIONS = {'.js', '.cjs', '.mjs', '.jsx', '.ts', '.tsx', '.go', '.py', '.sh', '.ps1', '.bat', '.html', '.css', '.md', '.json', '.yaml', '.yml', '.toml', '.txt', '.sql', '.mod', '.sum', '.xml', '.svg', '.service', '.timer'}
 TEXT_NAMES = {'Dockerfile', 'Caddyfile', 'Caddyfile.local', 'website', '.dockerignore', '.gitignore', '.gitattributes', 'LICENSE', 'Makefile'}
 PRIVATE_DIRS = {'node_modules', 'vendor', '.graft-context', '.git', '.local', '.openai', '.codex', '.claude', 'backups', 'private', 'data', 'runtime', 'logs', 'models', 'recordings', 'transcripts', '__pycache__'}
+AUTHORED_RUNTIME_FILES = {'runtime/nginx.conf', 'runtime/vite.config.mjs'}
 MAX_FILE_BYTES = 1_000_000
 
 def eligible(p):
-    # Tracked does not mean safe: explicitly keep runtime/credentials out too.
-    if p.parts[0].lower() == 'graft' or any(part.lower() in PRIVATE_DIRS for part in p.parts):
+    # Only these two authored configs may bypass the root runtime directory rule.
+    authored_runtime = p.as_posix() in AUTHORED_RUNTIME_FILES
+    private_parts = p.parts[1:] if authored_runtime else p.parts
+    if p.parts[0].lower() == 'graft' or any(part.lower() in PRIVATE_DIRS for part in private_parts):
         return False
     if any(part.startswith('.') and part not in ('.github', '.devcontainer') and part not in TEXT_NAMES for part in p.parts):
         return False
     credential = p.stem.lower().replace('_', '-').replace('.', '-')
     if credential in ('google-client', 'operator-access', 'credential', 'credentials', 'secret', 'secrets', 'token', 'tokens', 'oauth-token', 'oauth-tokens', 'client-secret', 'client-secrets', 'service-account', 'service-account-key') and p.suffix.lower() in ('.json', '.yaml', '.yml', '.toml', '.txt'):
         return False
-    return p.suffix.lower() in TEXT_EXTENSIONS or p.name in TEXT_NAMES or p.name.startswith(('Dockerfile.', 'Caddyfile.'))
+    return authored_runtime or p.suffix.lower() in TEXT_EXTENSIONS or p.name in TEXT_NAMES or p.name.startswith(('Dockerfile.', 'Caddyfile.'))
 
 def read_source(source):
     if not source.is_file() or source.is_symlink() or source.resolve() != source.absolute() or not source.resolve().is_relative_to(ROOT):
@@ -171,8 +199,8 @@ def container(cache, args):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--ref', required=True, choices=['dev', 'main'])
-    parser.add_argument('--feature', action='store_true', help='Explicit development feature checkout; remote reads still use dev')
+    parser.add_argument('--ref', required=True, choices=configured_refs())
+    parser.add_argument('--feature', action='store_true', help='Explicit feature checkout; --ref selects its configured preview base for remote reads')
     parser.add_argument('--start-line', type=int, default=1)
     parser.add_argument('action', choices=['setup', 'status', 'build', 'ask', 'callers', 'api', 'search', 'read', 'remote'])
     parser.add_argument('query', nargs='?')
@@ -186,11 +214,11 @@ def main():
         print(json.dumps(dict(info, files=files, excludedTracked=sorted(set(git('ls-files').splitlines())-set(files))), indent=2))
         return
     if args.action == 'remote':
-        endpoint = f'repos/{info["repository"]}/git/ref/heads/{args.ref}'
+        endpoint = f'repos/{info["repository"]}/git/ref/heads/{quote(info["ref"], safe="/")}'
         if args.query:
             if args.query.startswith('/') or '..' in Path(args.query).parts:
                 raise ValueError('Expected a repository-relative file path')
-            endpoint = f'repos/{info["repository"]}/contents/{quote(args.query, safe="/")}?ref={args.ref}'
+            endpoint = f'repos/{info["repository"]}/contents/{quote(args.query, safe="/")}?ref={quote(info["ref"], safe="")}'
         print(run(['gh', 'api', '--method', 'GET', endpoint]))
         return
     if args.action in ('ask', 'callers', 'api', 'search', 'read') and (not args.query or args.query.startswith('-')):

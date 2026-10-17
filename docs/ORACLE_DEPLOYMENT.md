@@ -2,7 +2,9 @@
 
 This generated contract is for one **stateless** HTTP image listening on `0.0.0.0:8080`, with Docker HEALTHCHECK and an uncached `/version.json` returning the exact build `revision`. Dockerfile accepts `REVISION` (or `APP_REVISION`) and `APP_SOURCE_URL`; labels must identify `https://github.com/xsolutionsmd/shoe-specialist` and that revision. The runtime uses a read-only root and disposable `/tmp`, `/data`, `/config`; persistent user data requires an adapted stateful deployment, not this template.
 
-Work on dev, run the app checks, commit and push. Dev and PR events check only. Merge the authorized dev-to-main PR to publish and deploy. Keep dev as a long-lived branch. Never automatically merge unrelated dev changes into main. Only `oracle-release.yml` publishes this app; disable any duplicate publisher introduced by another scaffold.
+Work on your own preview branch, run the app checks, commit and push. Pull requests check only; pushes to `derek-dev` or `abdul-dev` publish their independent preview images. Merge an authorized preview-to-main PR to publish production through `oracle-release.yml`. Never automatically merge unrelated preview changes into main. The three branch-scoped publishers are intentional; do not add a second publisher for the same environment.
+
+The real static frontend replaces the placeholder through the same image contract. See [STATIC_RUNTIME.md](STATIC_RUNTIME.md) for build targets, HTTP caching, noindex and the isolated local Compose checks. Production and both previews remain noindex until the owner explicitly approves indexing.
 
 ## First installation
 

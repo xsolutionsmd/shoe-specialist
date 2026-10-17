@@ -6,3 +6,4 @@
 - Homepage misspells the owner's surname in one paragraph and gives inconsistent experience counts; use Coleman Eldridge and established 1978, corroborated independently. [S1][S2][S6]
 - No live form delivery integration is configured; the build uses phone/directions/email actions.
 - No business-owner approval for search indexing has been established; keep all environments noindex for this initial deployment.
+- Request owner-approved photographs, in priority order: Coleman at the counter or workbench, the storefront, then a finished repair. The initial site intentionally uses original textures and typography while collected photographs remain public-unverified.

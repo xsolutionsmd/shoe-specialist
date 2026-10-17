@@ -58,7 +58,11 @@
       ]
     },
     "template": {
-      "status": "pending"
+      "status": "done",
+      "recorded": "2026-10-17T02:32:51+00:00",
+      "evidence": [
+        "https://www.gjcleverley.co.uk/"
+      ]
     },
     "assets": {
       "status": "done",
@@ -92,5 +96,5 @@
       "revision": "a818b2065d576fcdd488dafa7dce59bd748cace0"
     }
   },
-  "updated": "2026-10-17T02:08:22+00:00"
+  "updated": "2026-10-17T02:32:51+00:00"
 }
