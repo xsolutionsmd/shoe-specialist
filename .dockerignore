@@ -1,6 +1,27 @@
-# Placeholder infrastructure image uses only these public runtime files.
+# Explicit build-input allowlist. Private data, KB, agent instructions, state, design
+# evidence, host dependencies and generated dist stay outside every build stage.
 **
 !Dockerfile
-!placeholder/
-!placeholder/index.html
-!placeholder/nginx.conf
+!runtime/
+runtime/**
+!runtime/nginx.conf
+!runtime/vite.config.mjs
+!app/
+app/**
+!app/package.json
+!app/package-lock.json
+!app/index.html
+!app/src/
+app/src/**
+!app/src/main.js
+!app/src/styles.css
+!app/scripts/
+app/scripts/**
+!app/scripts/check.mjs
+!app/public/
+app/public/**
+!app/public/favicon.svg
+!app/public/textures/
+app/public/textures/**
+!app/public/textures/leather-ox.webp
+!app/public/textures/leather-deep.webp

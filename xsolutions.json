@@ -58,13 +58,25 @@
       ]
     },
     "template": {
-      "status": "pending"
+      "status": "done",
+      "recorded": "2026-10-17T02:32:51+00:00",
+      "evidence": [
+        "https://www.gjcleverley.co.uk/"
+      ]
     },
     "assets": {
-      "status": "pending"
+      "status": "done",
+      "recorded": "2026-10-17T02:04:42+00:00",
+      "evidence": [
+        "43 hash-verified images; final per-source coverage; coordinator visually selected four candidates with crop and rights notes"
+      ]
     },
     "delivery": {
-      "status": "pending"
+      "status": "done",
+      "recorded": "2026-10-17T02:04:43+00:00",
+      "evidence": [
+        "43-image library sent once and verified after reload: https://sidehustle2026.slack.com/archives/C0C0J6RB8KT/p1792202239952809"
+      ]
     },
     "build": {
       "status": "pending"
@@ -74,7 +86,15 @@
     },
     "deploy": {
       "status": "pending"
+    },
+    "infra": {
+      "status": "done",
+      "recorded": "2026-10-17T02:08:22+00:00",
+      "evidence": [
+        "https://github.com/xsolutionsmd/shoe-specialist; main protections and 3 branch-restricted environments configured; all GHCR packages public; production/derek-dev/abdul-dev HTTPS placeholder health, noindex and exact revision independently verified; push workflows 38993369375,38993369995,38993370486 succeeded. Existing gateway and sibling containers preserved except independent concurrent Oasis Abdul release 7a6dbf7."
+      ],
+      "revision": "a818b2065d576fcdd488dafa7dce59bd748cace0"
     }
   },
-  "updated": "2026-10-17T01:46:32+00:00"
+  "updated": "2026-10-17T02:32:51+00:00"
 }

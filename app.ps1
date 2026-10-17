@@ -20,5 +20,14 @@ $appArguments = @((Join-Path $PSScriptRoot 'scripts/app.py'), $Action, '--mode',
 if ($Image) { $appArguments += @('--image', $Image) }
 if ($Port) { $appArguments += @('--port', "$Port") }
 if ($AllowLocalImage) { $appArguments += '--allow-local-image' }
-& $appPython @appArguments
-exit $LASTEXITCODE
+# Windows PowerShell 5 can turn redirected native stderr (Docker progress) into
+# terminating errors under Stop. The Python process exit code is authoritative.
+$appSavedErrorPreference = $ErrorActionPreference
+try {
+    $ErrorActionPreference = 'Continue'
+    & $appPython @appArguments
+    $appExitCode = $LASTEXITCODE
+} finally {
+    $ErrorActionPreference = $appSavedErrorPreference
+}
+exit $appExitCode

@@ -13,6 +13,8 @@ import urllib.error
 import urllib.request
 import uuid
 
+from check_runtime import check_compose, verify_site
+
 ROOT = Path(__file__).resolve().parents[1]
 CONFIG = json.loads((ROOT / "app-workflow.json").read_text(encoding="utf-8"))
 STATE = ROOT / ".runtime"
@@ -123,7 +125,8 @@ def candidate(args, image, expected):
     env["APP_PORT"] = "0"
     try:
         compose("installed", "up", "--detach", "--no-build", "--wait", "--wait-timeout", "90", env=env, project=project)
-        verify_http("installed", env, expected, project)
+        base = verify_http("installed", env, expected, project)
+        verify_site(base, expected)
     finally:
         # The project was generated here, never an existing installation. Only its synthetic volume is removed.
         compose("installed", "down", "--volumes", env=env, project=project)
@@ -289,17 +292,24 @@ def start_installed(args):
 
 def check_app(args):
     expected = revision()
-    image = CONFIG["name"] + "-check:" + expected
+    image = CONFIG["name"] + "-check:" + expected[:12] + "-" + uuid.uuid4().hex[:10]
     source = "https://github.com/" + CONFIG["repository"]
-    for target in ("test", "runtime"):
-        command = ["docker", "build", "--target", target, "--build-arg", "APP_REVISION=" + expected,
-                   "--build-arg", "APP_SOURCE_URL=" + source]
-        if target == "runtime":
-            command += ["--tag", image]
-        run(*command, ".")
-    image_revision(image)
-    candidate(args, image, expected)
-    print("Container tests, runtime health, source label and exact revision passed: " + expected)
+    try:
+        for target in ("test", "runtime"):
+            target_image = image + "-test" if target == "test" else image
+            run("docker", "build", "--target", target, "--build-arg", "APP_REVISION=" + expected,
+                "--build-arg", "APP_SOURCE_URL=" + source, "--tag", target_image, ".")
+        image_revision(image)
+        candidate(args, image, expected)
+        check_compose(image, expected)
+        print("Container tests, installed/production/preview contracts, health, source label and exact revision passed: " + expected)
+        if run("git", "status", "--porcelain", capture=True):
+            print("Working tree has uncommitted changes: this revision identifies the parent commit, not a committed release.")
+    finally:
+        # These UUID-tagged images belong only to this check. Never prune shared build cache.
+        for temporary_image in (image, image + "-test"):
+            if image_cached(temporary_image):
+                run("docker", "image", "rm", temporary_image)
 
 
 def main():

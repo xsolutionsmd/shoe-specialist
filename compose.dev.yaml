@@ -10,10 +10,10 @@ services:
       - "127.0.0.1:${APP_PORT:-8787}:8080"
     volumes:
       - ./app:/workspace
-      - app-data:/data
+      - app-dependencies:/workspace/node_modules
     environment:
       APP_REVISION: ${APP_REVISION}
     init: true
     restart: unless-stopped
 volumes:
-  app-data:
+  app-dependencies:
