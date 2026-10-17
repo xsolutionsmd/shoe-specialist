@@ -1,0 +1,24 @@
+{
+  "schema": 1,
+  "name": "shoe-specialist",
+  "project": "shoe-specialist",
+  "source": "https://github.com/xsolutionsmd/shoe-specialist",
+  "repositories": {
+    "image": "ghcr.io/xsolutionsmd/shoe-specialist"
+  },
+  "state_dir": "/var/lib/shoe-specialist-deploy",
+  "current": "current.json",
+  "recovery_files": [
+    "previous.env",
+    "previous-current.json"
+  ],
+  "pending_globs": [
+    "transaction",
+    "transaction.json",
+    "transaction.json.new",
+    "check.*",
+    "check-*"
+  ],
+  "keep_previous": 2,
+  "minimum_age_hours": 24
+}

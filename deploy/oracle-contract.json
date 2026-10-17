@@ -1,0 +1,34 @@
+{
+  "schema": 1,
+  "repo": "xsolutionsmd/shoe-specialist",
+  "slug": "shoe-specialist",
+  "hostname": "shoe-specialist.xsolutionsmd.com",
+  "port": 8080,
+  "image": "ghcr.io/xsolutionsmd/shoe-specialist",
+  "mode": "stateless",
+  "architecture": "arm64",
+  "network": "xsolutions-proxy",
+  "environments": [
+    {
+      "name": "production",
+      "branch": "main",
+      "slug": "shoe-specialist",
+      "hostname": "shoe-specialist.xsolutionsmd.com",
+      "image": "ghcr.io/xsolutionsmd/shoe-specialist"
+    },
+    {
+      "name": "derek-dev",
+      "branch": "derek-dev",
+      "slug": "shoe-specialist-derek-dev",
+      "hostname": "shoe-specialist-derek-dev.xsolutionsmd.com",
+      "image": "ghcr.io/xsolutionsmd/shoe-specialist-derek-dev"
+    },
+    {
+      "name": "abdul-dev",
+      "branch": "abdul-dev",
+      "slug": "shoe-specialist-abdul-dev",
+      "hostname": "shoe-specialist-abdul-dev.xsolutionsmd.com",
+      "image": "ghcr.io/xsolutionsmd/shoe-specialist-abdul-dev"
+    }
+  ]
+}

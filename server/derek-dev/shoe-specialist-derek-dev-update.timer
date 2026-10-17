@@ -1,0 +1,11 @@
+[Unit]
+Description=Check shoe-specialist-derek-dev approved releases
+
+[Timer]
+OnBootSec=45s
+OnUnitInactiveSec=60s
+AccuracySec=5s
+Unit=shoe-specialist-derek-dev-update.service
+
+[Install]
+WantedBy=timers.target

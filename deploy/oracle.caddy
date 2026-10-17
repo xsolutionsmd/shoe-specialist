@@ -1,0 +1,3 @@
+shoe-specialist.xsolutionsmd.com {
+    reverse_proxy shoe-specialist:8080
+}

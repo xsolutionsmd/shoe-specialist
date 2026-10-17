@@ -1,0 +1,80 @@
+{
+  "schema": 1,
+  "toolkit": "xs-website 1.0 (2026-10-16)",
+  "name": "Shoe Specialist",
+  "slug": "shoe-specialist",
+  "created": "2026-10-17T01:45:25+00:00",
+  "repository": "xsolutionsmd/shoe-specialist",
+  "visibility": "public",
+  "identity": {
+    "status": "confirmed",
+    "official_name": "Shoe Specialist",
+    "address": "568 Benfield Road, Severna Park, MD 21146",
+    "public_phone": "410-544-2129",
+    "public_email": "Colemaneldridge1@comcast.net",
+    "website": "https://shoespecialistsp.com/",
+    "maps_url": null,
+    "social": {},
+    "evidence": [
+      {
+        "observed": "2026-10-17T01:46:32+00:00",
+        "note": "Official website and BBB independently match phone and street address [S1][S6]"
+      },
+      {
+        "observed": "2026-10-17T01:46:32+00:00",
+        "note": "Official about page and BBB independently confirm Coleman Eldridge and founding in 1978 [S2][S6]"
+      }
+    ]
+  },
+  "environments": [
+    {
+      "name": "production",
+      "branch": "main",
+      "hostname": "shoe-specialist.xsolutionsmd.com",
+      "slug": "shoe-specialist"
+    },
+    {
+      "name": "derek-dev",
+      "branch": "derek-dev",
+      "hostname": "shoe-specialist-derek-dev.xsolutionsmd.com",
+      "slug": "shoe-specialist-derek-dev"
+    },
+    {
+      "name": "abdul-dev",
+      "branch": "abdul-dev",
+      "hostname": "shoe-specialist-abdul-dev.xsolutionsmd.com",
+      "slug": "shoe-specialist-abdul-dev"
+    }
+  ],
+  "stages": {
+    "identity": {
+      "status": "pending"
+    },
+    "research": {
+      "status": "done",
+      "recorded": "2026-10-17T01:46:32+00:00",
+      "evidence": [
+        "Sourced company KB completed; conflicts and media permissions recorded"
+      ]
+    },
+    "template": {
+      "status": "pending"
+    },
+    "assets": {
+      "status": "pending"
+    },
+    "delivery": {
+      "status": "pending"
+    },
+    "build": {
+      "status": "pending"
+    },
+    "repo": {
+      "status": "pending"
+    },
+    "deploy": {
+      "status": "pending"
+    }
+  },
+  "updated": "2026-10-17T01:46:32+00:00"
+}

@@ -1,0 +1,11 @@
+[Unit]
+Description=Check shoe-specialist-abdul-dev approved releases
+
+[Timer]
+OnBootSec=45s
+OnUnitInactiveSec=60s
+AccuracySec=5s
+Unit=shoe-specialist-abdul-dev-update.service
+
+[Install]
+WantedBy=timers.target

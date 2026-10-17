@@ -1,0 +1,18 @@
+{
+  "schema": 1,
+  "name": "shoe-specialist",
+  "repository": "xsolutionsmd/shoe-specialist",
+  "source": "app",
+  "service": "app",
+  "container_port": 8080,
+  "local_port": 8787,
+  "health_path": "/health",
+  "version_path": "/version.json",
+  "stateful": false,
+  "backup_command": null,
+  "branches": [
+    "main",
+    "derek-dev",
+    "abdul-dev"
+  ]
+}

@@ -1,0 +1,21 @@
+name: shoe-specialist
+services:
+  web:
+    image: ${APP_IMAGE:?Set the approved immutable application image}
+    restart: unless-stopped
+    read_only: true
+    tmpfs: [/tmp, /data, /config]
+    security_opt: [no-new-privileges:true]
+    environment:
+      APP_ENVIRONMENT: production
+    networks:
+      proxy:
+        aliases: [shoe-specialist]
+    logging:
+      options:
+        max-size: "5m"
+        max-file: "2"
+networks:
+  proxy:
+    external: true
+    name: xsolutions-proxy

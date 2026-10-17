@@ -1,0 +1,6 @@
+# Placeholder infrastructure image uses only these public runtime files.
+**
+!Dockerfile
+!placeholder/
+!placeholder/index.html
+!placeholder/nginx.conf
